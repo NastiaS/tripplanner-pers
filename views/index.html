@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div id="app" class="clearfix">
+    <div class="map-container col-sm-8 col-lg-9">
+      <div>
+        <div id="map-canvas"></div>
+      </div>
+    </div>
+    <div id="control-panel" class="col-sm-4 col-lg-3 clearfix">
+      <div class="col-xs-6 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="item-group" id="hotel-item-group">
+              <h4>Hotels</h4>
+              <select>
+              {% for hotel in hotels %}
+                <option>{{ hotel.name }}</option>
+              {% endfor %}
+              </select>
+              <button class="btn btn-primary btn-circle pull-right add-item">+</button>
+            </div>
+            <div class="item-group" id="restaurant-item-group">
+              <h4>Restaurants</h4>
+              <select>
+              {% for restaurant in restaurants %}
+                <option>{{ restaurant.name }}</option>
+              {% endfor %}
+              </select>
+              <button class="btn btn-primary btn-circle pull-right add-item">+</button>
+            </div>
+            <div class="item-group" id="activity-item-group">
+              <h4>Things To Do</h4>
+              <select>
+              {% for thingToDo in thingsToDo %}
+                <option>{{ thingToDo.name }}</option>
+              {% endfor %}
+              </select>
+              <button class="btn btn-primary btn-circle pull-right add-item">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-12">
+        <h3>
+          <span id="day-title">
+            <span>Day 1</span>
+            <button class="btn btn-xs btn-danger remove btn-circle">x</button>
+          </span>
+        </h3>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="day-buttons"><button class="btn btn-circle day-btn select-day current-day">1</button><button class="btn btn-circle day-btn add-day-btn">+</button></div>
+          </div>
+          <div class="panel-body">
+            <div class="chosen-group" id="chosen-hotels">
+              <h4>My Hotel</h4>
+              <ul class="list-group">
+              </ul>
+            </div>
+            <div class="chosen-group" id="chosen-restaurants">
+              <h4>My Restaurants</h4>
+              <ul class="list-group">
+              </ul>
+            </div>
+            <div class="chosen-group" id="chosen-activities">
+              <h4>My Things To Do</h4>
+              <ul class="list-group">
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // here we use swig to turn the `hotels` into a stringified representation. But because we add this string to some JS in a script tag, when the client loads it, it will actually set that object as a variable. So now we have an `all_hotels` array on the front-end — check it out in your console!
+    {% autoescape false %}
+    var all_hotels = {{ hotels | json }};
+    var all_restaurants = {{ restaurants | json }};
+    var all_things_to_do = {{ thingsToDo | json }};
+    {% endautoescape %}
+  </script>
+
+{% endblock %}
